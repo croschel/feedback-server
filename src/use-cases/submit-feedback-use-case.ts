@@ -13,6 +13,20 @@ export class SubmitFeedbackUseCase {
     private mailAdapter: MailAdapter
   ) {}
   async execute(request: SubmitFeedbackUseCaseRequest) {
+    if (!request.type) {
+      throw new Error("Type is required");
+    }
+
+    if (!request.comment) {
+      throw new Error("Comment is required");
+    }
+
+    if (
+      request.screenshot &&
+      !request.screenshot.startsWith("data:image/png;base64")
+    ) {
+      throw new Error("Invalid screenshot format");
+    }
     await this.feedbacksRepository.create(request);
     await this.mailAdapter.sendEmail({
       subject: "Novo feedback",
