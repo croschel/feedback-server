@@ -9,6 +9,7 @@ app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ limit: "50mb" }));
 app.use(routes);
 
+// listen on dynamic port
 app.listen(process.env.PORT || 3333, () => {
   console.log("HTTP server running");
 });
